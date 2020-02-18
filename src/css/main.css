@@ -1,0 +1,74 @@
+.sortItems .sortData {
+    margin: 0 15px;
+    cursor: pointer;
+}
+.item-card {
+    float: left;
+    margin-top: 20px;
+}
+.item-card .itemPrice, .cartDetails .itemPrice {
+    text-align: left;
+    font-size: 12px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.item-card s, .cartDetails s{
+    color: gray;
+    font-size: 11px;
+}
+.itemPrice span, .cartDetails span{
+    color: darkgreen;
+    font-size: 11px;
+    font-weight: bold;
+}
+.item-card .addCart, .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle{   
+    background-color: orange;
+    border-color: transparent;
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    border-radius: 25px;
+    box-shadow: none;
+}
+.item-card p{
+    margin-bottom: 0;
+}
+.item-card img{
+    width: 150px;
+    height: 150px;
+}
+.cartDetails {    
+    float: left;
+    margin-top: 19px;
+    border: 1px solid;
+    padding: 15px 0px;
+    background-color: whitesmoke;
+}
+.cartDetails .cartBlock {
+    float: left;
+}
+.cartDetails .counterSign {
+    float: left;
+    font-size: 20px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.cartDetails input {
+    float: left;
+    width: 40px;
+    text-align: center;
+}
+.cartDetails .removeCart {
+    font-size: 15px;
+    cursor: pointer;
+}
+.cartDetails img{
+    width: 150px;
+    height: 150px;
+}
+.cartDetails .details{
+    padding-top: 50px;
+}
+.filterItems .addCart {
+    border-radius: 25px;
+}

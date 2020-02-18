@@ -1,26 +1,134 @@
 import React from 'react';
-import logo from './logo.svg';
+import Search from './mainComponents/Search';
+import Filter from './mainComponents/Filter';
+import Result from './mainComponents/Result';
+import Sorting from './mainComponents/Sorting';
 import './App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      products : [],
+      cartItems: [],
+      size: "",
+      sort: "",
+      filteredItems: [],
+      searchData: "",
+      originalData:[]
+    }
+    this.cartTotal = this.cartTotal.bind(this);
+  }
+  componentWillMount(){
+    if (localStorage.getItem("cartItems")) {
+      this.setState({
+        cartItems: JSON.parse(localStorage.getItem("cartItems"))
+      });
+    }
+    fetch("https://api.myjson.com/bins/qzuzi")
+      .then(response => response.json())
+      .then(result => this.setState({
+      products: result,
+      originalData:result
+    }));
+  }
+  removeFromCart = (e, item) =>{
+    this.setState(state => {
+      const cartItems = state.cartItems;
+      cartItems.forEach(cp => {
+        if (cp.id === item.id) {
+          cp.count -= 1;
+        }
+      });
+      cartItems.push({ ...item, count: 1 });
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      return { cartItems: cartItems };
+    });
+  };
+  addToCart = (e, item) =>{
+    this.setState(state => {
+      const cartItems = state.cartItems;
+      let productAlreadyInCart = false;
+
+      cartItems.forEach(cp => {
+        if (cp.id === item.id) {
+          cp.count += 1;
+          productAlreadyInCart = true;
+        }
+      });
+
+      if (!productAlreadyInCart) {
+        cartItems.push({ ...item, count: 1 });
+      }
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      return { cartItems: cartItems };
+    });
+  };
+  cartTotal(){    
+    let cartItems = this.state.cartItems;
+    let totalCount = 0;
+    for(var i of cartItems){
+      totalCount = totalCount + i.count;
+    }
+    if(totalCount !== 0){
+      return totalCount;
+    }
+  }
+  listProducts = () => {
+    this.setState(state => {
+      if(state.sort === "Price--High Low") {
+        state.products.sort((a, b) =>a.price < b.price? 1 : -1)
+      } else if(state.sort === "Price--Low High"){
+        state.products.sort((a, b) =>a.price > b.price? 1 : -1)
+      } else if(state.sort === "Discount"){
+        state.products.sort((a, b) =>a.discount < b.discount? 1 : -1)
+      }
+      return { filteredProducts: state.products };
+    });
+  };
+  handleSortClick = e => {
+    this.setState({ sort: e.target.innerText });
+    this.listProducts();
+  };
+  
+  handleInputChange = e => {
+    const items = this.state.originalData;
+    let filteredData = items.filter(function(item) {
+      return item.name.toUpperCase().indexOf(e.target.value.toUpperCase()) > -1;
+    });
+    this.setState({ 
+      searchData: e.target.value,
+      products : filteredData 
+    });
+
+  }
+
+  render(){
+    return (
+      <div>
+        <nav class="navbar navbar-light bg-light">
+          <a class="navbar-brand" href="/">Logo</a> 
+          <div class="form-inline">
+            <Search value={this.state.searchData} handleInputChange={this.handleInputChange} />
+            <a href="/cart"><FontAwesomeIcon icon={faShoppingCart} />{this.cartTotal()}</a>            
+          </div>
+        </nav>
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-2 col-sm-12">
+            <Filter />
+          </div>
+          <div className="col-lg-10 col-sm-12">
+            <Sorting handleSortClick={this.handleSortClick} />
+            <Result items={this.state.products} handleClick={this.addToCart} />
+          </div>
+        </div>
+      </div>
     </div>
-  );
+      
+    );
+  }
 }
-
 export default App;
