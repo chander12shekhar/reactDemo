@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Search from './Search';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import '../css/all.css';
 import '../css/main.css';
 
 export default class Cart extends Component {
@@ -84,11 +83,11 @@ export default class Cart extends Component {
                     </div>
                     <div className="col-md-4 cartBlock details">
                         <span className="counterSign" onClick={(e)=>this.counter(items, "-")}>
-                            <FontAwesomeIcon icon={faMinusCircle} />
+                            <i class="fas fa-minus-circle"></i>
                         </span>
                         <input type="text" value={items.count} readonly="true" />
                         <span className="counterSign" onClick={(e)=>this.counter(items, "+")}>
-                            <FontAwesomeIcon icon={faPlusCircle} />
+                            <i class="fas fa-plus-circle"></i>
                         </span>
                     </div>
                     <div className="col-md-2 cartBlock details">

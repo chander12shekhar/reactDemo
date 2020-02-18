@@ -4,9 +4,8 @@ import Filter from './mainComponents/Filter';
 import Result from './mainComponents/Result';
 import Sorting from './mainComponents/Sorting';
 import './App.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-
+import './css/all.css';
+ 
 class App extends React.Component {
   constructor(props){
     super(props);
@@ -112,7 +111,7 @@ class App extends React.Component {
           <a class="navbar-brand" href="/">Logo</a> 
           <div class="form-inline">
             <Search value={this.state.searchData} handleInputChange={this.handleInputChange} />
-            <a href="/cart"><FontAwesomeIcon icon={faShoppingCart} />{this.cartTotal()}</a>            
+            <a href="/cart"><i class="fas fa-shopping-cart"></i>{this.cartTotal()}</a>            
           </div>
         </nav>
       <div className="container">
