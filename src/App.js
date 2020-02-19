@@ -12,9 +12,7 @@ class App extends React.Component {
     this.state = {
       products : [],
       cartItems: [],
-      size: "",
       sort: "",
-      filteredItems: [],
       searchData: "",
       originalData:[]
     }
@@ -91,6 +89,15 @@ class App extends React.Component {
     this.setState({ sort: e.target.innerText });
     this.listProducts();
   };
+  handleFilterClick = e => {    
+    const items = this.state.originalData;
+    let filteredData = items.filter(function(item) {
+      return e.state.value.min < item.price && item.price < e.state.value.max;
+    });
+    this.setState({ 
+      products : filteredData 
+    });
+  }  
   
   handleInputChange = e => {
     const items = this.state.originalData;
@@ -101,14 +108,13 @@ class App extends React.Component {
       searchData: e.target.value,
       products : filteredData 
     });
-
   }
 
   render(){
     return (
       <div>
         <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand" href="/">Logo</a> 
+          <a class="navbar-brand" href="/"><i class="fas fa-star logo"></i></a> 
           <div class="form-inline">
             <Search value={this.state.searchData} handleInputChange={this.handleInputChange} />
             <a href="/cart"><i class="fas fa-shopping-cart"></i>{this.cartTotal()}</a>            
@@ -117,7 +123,7 @@ class App extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-lg-2 col-sm-12">
-            <Filter />
+            <Filter handleFilterClick={this.handleFilterClick} />
           </div>
           <div className="col-lg-10 col-sm-12">
             <Sorting handleSortClick={this.handleSortClick} />

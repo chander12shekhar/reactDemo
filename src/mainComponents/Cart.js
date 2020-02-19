@@ -99,7 +99,7 @@ export default class Cart extends Component {
         return (
             <div>
                 <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="/">Logo</a> 
+                    <a class="navbar-brand" href="/"><i class="fas fa-star logo"></i></a> 
                     <div class="form-inline">
                         <Search />     
                     </div>
